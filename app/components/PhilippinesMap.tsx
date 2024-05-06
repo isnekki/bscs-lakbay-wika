@@ -1,5 +1,47 @@
+"use client"
+
+import { useState } from "react"
+
+interface MapDetails {
+  regionName: string
+  isOpen: boolean
+  // ...rest
+}
+
+function MapDetailsTooltip({ regionName, isOpen }: MapDetails) {
+  return (
+    isOpen &&
+    <div className="bg-white">
+      {regionName}
+    </div>
+  )
+}
+
 export default function PhilippinesMap() {
-    return (
+  const [isTooltipOpen, setIsTooltipOpen] = useState<boolean>(false)
+  const [regionName, setRegionName] = useState<string>("")
+
+
+  function handleOnMouseEnter(e: React.MouseEvent) {
+    console.log("Opened!")
+    const regionName = e.currentTarget.id
+    /**
+     * use variable regionName to filter database responses on per region data
+     * display container and set component state to opened
+     * hydrate container with information
+     * 
+     */
+    setIsTooltipOpen(true)
+  }
+
+  function handleOnMouseLeave(e: React.MouseEvent) {
+    console.log("Closed!")
+    setIsTooltipOpen(false)
+  }
+
+  return (
+  <>
+    <MapDetailsTooltip regionName={regionName} isOpen={isTooltipOpen} />
         <svg
             width="inherit"
             height="inherit"
@@ -14,18 +56,18 @@ export default function PhilippinesMap() {
             overflow="visible"
             xmlSpace="preserve"
           >
-            <path
-              id="ncr"
-              className="region"
-              fillRule="evenodd"
-              fill="#979797"
-              d="M599.9,934.6c-3.3-6.7-0.7-16.4,0.6-18.3c2.5-3.6,4.8,2.5,3.9-6.7
-       c-0.4-4,0.5-6.8,0.5-10.7c0.2-0.1,0.4-0.3,0.5-0.4c1.1-0.6,2-1,3.2-1.4c-1.4-2.2-1-2.6-3-4.4c0.5-4.1,1.4-2.9,1.5-7.1
-       c0.1-3.4,0.5-5.7,0.7-7.5c-2.8,1-3.3,2.6-7.9,1.5c-2.1-0.5-1.4-0.9-3.6-1.1c-1-0.1-1.1,0.6-1.7,0.5c-4.6,7.6-11.9,2.6-10.1,10.2
-       l-2.9,1.5c0.7,1.1,4.8,6.8,4.9,7c0.9,3.8-2.7,3.5,1.9,8.5c2.7,2.8,4.4,9.2,1.1,13l-3.1,2.5c1.7,3.8,5.8,10.8,6.3,14.5
-       C597.1,935.2,596.4,935.5,599.9,934.6z"
-            />
-            <g id="car" className="region">
+            <g id="ncr" className="region">
+              <path
+                fillRule="evenodd"
+                fill="#979797"
+                d="M599.9,934.6c-3.3-6.7-0.7-16.4,0.6-18.3c2.5-3.6,4.8,2.5,3.9-6.7
+        c-0.4-4,0.5-6.8,0.5-10.7c0.2-0.1,0.4-0.3,0.5-0.4c1.1-0.6,2-1,3.2-1.4c-1.4-2.2-1-2.6-3-4.4c0.5-4.1,1.4-2.9,1.5-7.1
+        c0.1-3.4,0.5-5.7,0.7-7.5c-2.8,1-3.3,2.6-7.9,1.5c-2.1-0.5-1.4-0.9-3.6-1.1c-1-0.1-1.1,0.6-1.7,0.5c-4.6,7.6-11.9,2.6-10.1,10.2
+        l-2.9,1.5c0.7,1.1,4.8,6.8,4.9,7c0.9,3.8-2.7,3.5,1.9,8.5c2.7,2.8,4.4,9.2,1.1,13l-3.1,2.5c1.7,3.8,5.8,10.8,6.3,14.5
+        C597.1,935.2,596.4,935.5,599.9,934.6z"
+              />
+            </g>
+            <g id="car" className="region" onMouseEnter={handleOnMouseEnter} onMouseLeave={handleOnMouseLeave}>
               <path
                 fillRule="evenodd"
                 fill="#959595"
@@ -1384,5 +1426,6 @@ export default function PhilippinesMap() {
               />
             </g>
           </svg>
+      </>
     )
 }
