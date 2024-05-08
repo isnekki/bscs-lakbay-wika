@@ -213,8 +213,8 @@ export default function MapDetailsTooltip({ regionName, x, y, isOpen }: MapDetai
             <div id="bottom" className="flex flex-col items-center m-2">
                 <div id="languages-spoken" className="flex flex-row items-center justify-between w-full">
                     {
-                        regionHovered?.["languages-spoken"].split(", ").map(languageSpoken => (
-                            <LanguageChip language={languageSpoken} />
+                        regionHovered?.["languages-spoken"].split(", ").map((languageSpoken, index) => (
+                            <LanguageChip key={index} language={languageSpoken} />
                         ))
                     }
                 </div>
