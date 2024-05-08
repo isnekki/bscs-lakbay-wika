@@ -14,13 +14,14 @@ import { MapDetails } from "./components/MapDetailsTooltip";
 export default function Home() {
   const [tooltipCoordinates, setTooltipCoordinates] = useState<{ x: number, y:number }>({ x: 0, y: 0 })
   const [isTooltipOpen, setIsTooltipOpen] = useState<boolean>(false)
+  const [regionName, setRegionName] = useState<string>("")
   const mapContainerRef = createRef<HTMLDivElement>()
 
   function handleMapOnMouseEnter(e: React.MouseEvent) {
     if (!mapContainerRef || !mapContainerRef.current) return
     const { clientX, clientY } = e
-    const regionName = e.currentTarget.id
     setTooltipCoordinates({ x: clientX - mapContainerRef.current.getBoundingClientRect().x, y: clientY - mapContainerRef.current.getBoundingClientRect().y })
+    setRegionName(e.currentTarget.id)
     setIsTooltipOpen(true)
   }
   
@@ -54,7 +55,7 @@ export default function Home() {
       </div>
       <div className="h-screen w-full bg-white p-12">
         <div ref={mapContainerRef} className="relative h-full w-full">
-          <MapDetailsTooltip regionName={""} isOpen={isTooltipOpen} x={tooltipCoordinates.x} y={tooltipCoordinates.y} />
+          <MapDetailsTooltip regionName={regionName} isOpen={isTooltipOpen} x={tooltipCoordinates.x} y={tooltipCoordinates.y} />
           <PhilippinesMap onMouseEnter={handleMapOnMouseEnter} onMouseLeave={handleMapOnMouseLeave} />
         </div>
       </div>

@@ -28,7 +28,7 @@ export default function PhilippinesMap({ onMouseEnter, onMouseLeave }: Philippin
               overflow="visible"
               xmlSpace="preserve"
             >
-              <g id="ncr" className="region">
+              <g id="ncr" className="region pointer-events-[bounding-box]" onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
                 <path
                   fillRule="evenodd"
                   fill="#979797"
@@ -39,7 +39,7 @@ export default function PhilippinesMap({ onMouseEnter, onMouseLeave }: Philippin
           C597.1,935.2,596.4,935.5,599.9,934.6z"
                 />
               </g>
-              <g id="car" className="region" onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
+              <g id="car" className="region pointer-events-[bounding-box]" onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
                 <path
                   fillRule="evenodd"
                   fill="#959595"
@@ -104,7 +104,7 @@ export default function PhilippinesMap({ onMouseEnter, onMouseLeave }: Philippin
             c-1.5-3.2-3.9-4.4-6.8-5.8l-4.3,2.9c-13.2-5.7-10.4,2.4-16.2,5c-1.6,0.7-5.8,1.4-7.5,1.8c-1.8,6.4-2.5,7.8-8.1,9.5L542.7,444z"
                 />
               </g>
-              <g id="region-i" className="region">
+              <g id="region-i" className="region pointer-events-[bounding-box]" onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
                 <path
                   fillRule="evenodd"
                   fill="#A6A6A6"
@@ -160,7 +160,7 @@ export default function PhilippinesMap({ onMouseEnter, onMouseLeave }: Philippin
             c0.7,4.8,3.6,2.7,4.7-0.4c1-2.8,1.1-7.2,5.7-9.2c0.7-0.3,2.4-1.1,3.3-1.2C539.3,442.4,551.1,437.2,551.4,436.8z"
                 />
               </g>
-              <g id="region-ii" className="region">
+              <g id="region-ii" className="region pointer-events-[bounding-box]" onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
                 <path
                   fillRule="evenodd"
                   fill="#747474"
@@ -228,7 +228,7 @@ export default function PhilippinesMap({ onMouseEnter, onMouseLeave }: Philippin
             c-6.4,1.7-1.3,2.4-6.6,10.4C700.8,21.8,696.5,24.2,702.2,28.9z"
                 />
               </g>
-              <g id="region-iii" className="region">
+              <g id="region-iii" className="region pointer-events-[bounding-box]" onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
                 <path
                   fillRule="evenodd"
                   fill="#CFCFCF"
@@ -315,7 +315,7 @@ export default function PhilippinesMap({ onMouseEnter, onMouseLeave }: Philippin
             C591.1,880,592.2,878.5,592.6,877.5z"
                 />
               </g>
-              <g id="region-iva" className="region">
+              <g id="region-iva" className="region pointer-events-[bounding-box]" onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
                 <path
                   fillRule="evenodd"
                   fill="#E9E9E9"
@@ -412,7 +412,7 @@ export default function PhilippinesMap({ onMouseEnter, onMouseLeave }: Philippin
             C813.8,978.8,803.3,973,791.4,969.5z"
                 />
               </g>
-              <g id="region-ivb" className="region">
+              <g id="region-ivb" className="region pointer-events-[bounding-box]" onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
                 <path
                   fillRule="evenodd"
                   fill="#C1C1C1"
@@ -567,7 +567,7 @@ export default function PhilippinesMap({ onMouseEnter, onMouseLeave }: Philippin
             c4.4,1.5-0.1,1,4,1.5c1,0.1,1.2-0.5,2.6,0.1c0.9-4.6-0.3-3,0.1-5.3L253.3,1954.3z"
                 />
               </g>
-              <g id="region-v" className="region">
+              <g id="region-v" className="region pointer-events-[bounding-box]" onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
                 <path
                   fillRule="evenodd"
                   fill="#717171"
@@ -677,7 +677,7 @@ export default function PhilippinesMap({ onMouseEnter, onMouseLeave }: Philippin
             c10.1,1.2,8.2,1,16.9-10.2c3.6,0.3,4.1,1.2,7.4,2.6c2.6,1.1,4.7,1.5,7.2,2.7C813.3,975.3,816.3,977.5,824.7,980.8z"
                 />
               </g>
-              <g id="region-vi" className="region">
+              <g id="region-vi" className="region pointer-events-[bounding-box]" onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
                 <path
                   fillRule="evenodd"
                   fill="#D1D1D1"
@@ -775,7 +775,7 @@ export default function PhilippinesMap({ onMouseEnter, onMouseLeave }: Philippin
             c2.7-1.1,2.5-0.2,4.9-1.9c-0.8-3.4-0.2-0.4-0.9-2.2c-1.6-4.7,1,4-0.3-1.1L673.1,1279.7z"
                 />
               </g>
-              <g id="region-vii" className="region">
+              <g id="region-vii" className="region pointer-events-[bounding-box]" onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
                 <path
                   fillRule="evenodd"
                   fill="#A1A1A1"
@@ -838,7 +838,7 @@ export default function PhilippinesMap({ onMouseEnter, onMouseLeave }: Philippin
             C959.1,1653.6,959.4,1653.7,959.6,1653.5z"
                 />
               </g>
-              <g id="region-viii" className="region">
+              <g id="region-viii" className="region pointer-events-[bounding-box]" onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
                 <path
                   fillRule="evenodd"
                   fill="#D8D8D8"
@@ -956,7 +956,7 @@ export default function PhilippinesMap({ onMouseEnter, onMouseLeave }: Philippin
             c-6.4-14.7-15.1-0.2-15.1-10.8c0-20.1-2-20.9,3.8-23.4L1159.2,1233.1z"
                 />
               </g>
-              <g id="region-ix" className="region">
+              <g id="region-ix" className="region pointer-events-[bounding-box]" onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
                 <path
                   fillRule="evenodd"
                   fill="#8B8B8B"
@@ -1021,7 +1021,7 @@ export default function PhilippinesMap({ onMouseEnter, onMouseLeave }: Philippin
                 />
               </g>
 
-              <g id="region-x" className="region">
+              <g id="region-x" className="region pointer-events-[bounding-box]" onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
                 <path
                   fillRule="evenodd"
                   fill="#C2C2C2"
@@ -1082,7 +1082,7 @@ export default function PhilippinesMap({ onMouseEnter, onMouseLeave }: Philippin
                 C996.5,1849.5,997.7,1847.2,994.9,1847.8z M1019.6,1818.1c-0.4,3.2-2.1,3.9-4.9,3.3l0.5-3.1L1019.6,1818.1z"
                 />
               </g>
-              <g id="region-xi" className="region">
+              <g id="region-xi" className="region pointer-events-[bounding-box]" onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
                 <path
                   fillRule="evenodd"
                   fill="#A2A2A2"
@@ -1150,7 +1150,7 @@ export default function PhilippinesMap({ onMouseEnter, onMouseLeave }: Philippin
                 c4.6-8.5,1-2.6,10.2-8.4l38.3-20.4C1316.7,1903.6,1316.5,1894.9,1316.3,1895.2z"
                 />
               </g>
-              <g id="region-xii" className="region">
+              <g id="region-xii" className="region pointer-events-[bounding-box]" onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
                 <path
                   fillRule="evenodd"
                   fill="#737373"
@@ -1211,7 +1211,7 @@ export default function PhilippinesMap({ onMouseEnter, onMouseLeave }: Philippin
                 c2.7,1.9,8.4,4.9,9.9,6.7C1089.5,2051.2,1090.8,2044.2,1089.1,2039.4z"
                 />
               </g>
-              <g id="region-xiii" className="region">
+              <g id="region-xiii" className="region pointer-events-[bounding-box]" onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
                 <path
                   fillRule="evenodd"
                   fill="#737373"
@@ -1295,7 +1295,7 @@ export default function PhilippinesMap({ onMouseEnter, onMouseLeave }: Philippin
                 />
               </g>
 
-              <g id="armm" className="region">
+              <g id="armm" className="region pointer-events-[bounding-box]" onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
                 <path
                   fillRule="evenodd"
                   fill="#DADADA"
