@@ -1,14 +1,33 @@
+"use client"
 /** NATIVE PACKAGES */
 import Image from "next/image";
 
 /** CUSTOM COMPONENTS */
 import PhilippinesMap from "./components/PhilippinesMap";
+import MapDetailsTooltip from "./components/MapDetailsTooltip";
 
 /** ASSETS */
 import BSCSLogo from '../assets/images/logo-white.png'
-import Philippines from '../assets/svgs/philippines.svg'
+import { createRef, useState } from "react";
+import { MapDetails } from "./components/MapDetailsTooltip";
 
 export default function Home() {
+  const [tooltipCoordinates, setTooltipCoordinates] = useState<{ x: number, y:number }>({ x: 0, y: 0 })
+  const [isTooltipOpen, setIsTooltipOpen] = useState<boolean>(false)
+  const mapContainerRef = createRef<HTMLDivElement>()
+
+  function handleMapOnMouseEnter(e: React.MouseEvent) {
+    if (!mapContainerRef || !mapContainerRef.current) return
+    const { clientX, clientY } = e
+    const regionName = e.currentTarget.id
+    setTooltipCoordinates({ x: clientX - mapContainerRef.current.getBoundingClientRect().x, y: clientY - mapContainerRef.current.getBoundingClientRect().y })
+    setIsTooltipOpen(true)
+  }
+  
+  function handleMapOnMouseLeave(e: React.MouseEvent) {
+    setIsTooltipOpen(false)
+  }
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between">
       <nav className="absolute flex items-center w-full p-12">
@@ -34,8 +53,9 @@ export default function Home() {
         </div>
       </div>
       <div className="h-screen w-full bg-white p-12">
-        <div className="relative h-full w-full">
-          <PhilippinesMap />
+        <div ref={mapContainerRef} className="relative h-full w-full">
+          <MapDetailsTooltip regionName={""} isOpen={isTooltipOpen} x={tooltipCoordinates.x} y={tooltipCoordinates.y} />
+          <PhilippinesMap onMouseEnter={handleMapOnMouseEnter} onMouseLeave={handleMapOnMouseLeave} />
         </div>
       </div>
     </main>
