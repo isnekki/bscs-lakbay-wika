@@ -25,7 +25,9 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
-
+.icon{
+  height: fit-content;
+}
 @layer utilities {
   .text-balance {
     text-wrap: balance;
