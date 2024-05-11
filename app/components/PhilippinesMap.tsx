@@ -106,7 +106,7 @@ export default function PhilippinesMap({ regionData, onMouseEnter, onMouseLeave 
 
       return () => provinceSVG.removeEventListener("click", handleProvinceOnClick)
     }
-  }, [divRef])
+  }, [divRef, handleProvinceOnClick])
 
   function handleProvinceOnClick(e: Event) {
     if (e.target instanceof SVGPathElement === false) return
@@ -225,7 +225,7 @@ export default function PhilippinesMap({ regionData, onMouseEnter, onMouseLeave 
                       selectedProvince.provinceData["population-distribution"].split(", ").map((distribution, index) => {
                         const [language, percentage] = distribution.split(":")
                         return (
-                          <div id="distribution-container" className="w-full bg-gray-400 rounded-md mb-2">
+                          <div key={index} id="distribution-container" className="w-full bg-gray-400 rounded-md mb-2">
                             <div id="distribution-percentage" style={{ background: languageColors[index], width: percentage }} className="flex items-center justify-between rounded-md flex-row p-2">
                               {
                                 Number(percentage.replace("%", "")) >= 15 &&
@@ -241,7 +241,7 @@ export default function PhilippinesMap({ regionData, onMouseEnter, onMouseLeave 
                       modalData?.regionData["population-distribution"].split(", ").map((distribution, index) => {
                         const [language, percentage] = distribution.split(":")
                         return (
-                          <div id="distribution-container" className="w-full bg-gray-400 rounded-md mb-2">
+                          <div key={index} id="distribution-container" className="w-full bg-gray-400 rounded-md mb-2">
                             <div id="distribution-percentage" style={{ background: languageColors[index], width: percentage }} className="flex items-center justify-between rounded-md flex-row p-2">
                               {
                                 Number(percentage.replace("%", "")) >= 15 &&
@@ -274,7 +274,7 @@ export default function PhilippinesMap({ regionData, onMouseEnter, onMouseLeave 
                                   </div>
                                 )
                                 return (
-                                  <div className="flex flex-col mt-4">
+                                  <div key={languageIndex} className="flex flex-col mt-4">
                                     <span className="text-black font-sf-semibold text-md">{langData[0].language}</span>
                                     {
                                       langData.map((individualLanguage, index) => (
@@ -303,7 +303,7 @@ export default function PhilippinesMap({ regionData, onMouseEnter, onMouseLeave 
                                   </div>
                                 )
                                 return (
-                                  <div className="flex flex-col mt-4">
+                                  <div key={languageIndex} className="flex flex-col mt-4">
                                     <span className="text-black font-sf-semibold text-md">{phrases[0].language}</span>
                                     {
                                       phrases.map((phrase, index) => {
