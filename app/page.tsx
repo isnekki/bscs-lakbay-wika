@@ -2,20 +2,27 @@
 /** NATIVE PACKAGES */
 import Image from "next/image";
 
+/** EXTERNAL PACKAGES */
+import Modal from 'react-modal'
+
 /** CUSTOM COMPONENTS */
 import PhilippinesMap from "./components/PhilippinesMap";
 import MapDetailsTooltip from "./components/MapDetailsTooltip";
+import { getDummyData } from "@/utils/Dev-RegionDummyData";
 
 /** ASSETS */
 import BSCSLogo from '../assets/images/logo-white.png'
 import { createRef, useState } from "react";
-import { MapDetails } from "./components/MapDetailsTooltip";
+
+Modal.setAppElement("main")
 
 export default function Home() {
   const [tooltipCoordinates, setTooltipCoordinates] = useState<{ x: number, y:number }>({ x: 0, y: 0 })
   const [isTooltipOpen, setIsTooltipOpen] = useState<boolean>(false)
   const [regionName, setRegionName] = useState<string>("")
   const mapContainerRef = createRef<HTMLDivElement>()
+
+  const dummyRegionData = getDummyData()
 
   function handleMapOnMouseEnter(e: React.MouseEvent) {
     if (!mapContainerRef || !mapContainerRef.current) return
@@ -40,8 +47,8 @@ export default function Home() {
       </div>
       <div className="h-screen w-full bg-white p-12">
         <div ref={mapContainerRef} className="relative h-full w-full">
-          <MapDetailsTooltip regionName={regionName} isOpen={isTooltipOpen} x={tooltipCoordinates.x} y={tooltipCoordinates.y} />
-          <PhilippinesMap onMouseEnter={handleMapOnMouseEnter} onMouseLeave={handleMapOnMouseLeave} />
+          <MapDetailsTooltip regionName={regionName} regionData={dummyRegionData} isOpen={isTooltipOpen} x={tooltipCoordinates.x} y={tooltipCoordinates.y} />
+          <PhilippinesMap regionData={dummyRegionData} onMouseEnter={handleMapOnMouseEnter} onMouseLeave={handleMapOnMouseLeave} />
         </div>
       </div>
     </main>
