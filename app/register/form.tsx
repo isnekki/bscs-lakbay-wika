@@ -10,13 +10,16 @@ export default function Form() {
             method: 'POST',
             body: JSON.stringify({
                 email: formData.get('email'),
-                password: formData.get('password')
+                password: formData.get('password'),
+                display_name: formData.get('display_name'),
+                is_admin: false,
             }),
         });
         console.log({ response })
     }
     return (
         <form onSubmit={handleSubmit} className="flex flex-col gap-2 mx-auto max-w-md mt-10 h-screen justify-center">
+            <input name="display_name" className="border border-black text-black" type="text" />
             <input name="email" className="border border-black text-black"  type="email" />
             <input name="password" className="border border-black text-black" type="password" />
             <button type='submit' >Register</button>

@@ -3,18 +3,17 @@ import {hash} from 'bcrypt'
 import {sql} from '@vercel/postgres'
 export async function POST(request: Request) {
     try {
-        const {email, password} = await request.json();
-        //todo: validate email and password (make sure email are valid nad or password must not contain shit or etc. fuck this.)
+        const {email, password, display_name, is_admin} = await request.json();
+        //todo: validate email and password (validate if email contains @... and password is at least 8 characters or somthn.)
         console.log({email, password})
 
         //hash the pw
         const hashedPassword = await hash(password, 10);
         
         const response = await sql`
-        INSERT INTO users (email, password)
-        VALUES (${email}, ${hashedPassword})
+        INSERT INTO users (email, display_name, password, is_admin)
+        VALUES (${email}, ${display_name},${hashedPassword}, ${is_admin})
         `;
-
 
     } catch (error) {
         console.log({error})

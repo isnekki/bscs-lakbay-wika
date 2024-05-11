@@ -4,6 +4,12 @@ import {compare} from 'bcrypt'
 import { sql } from '@vercel/postgres'
 
 const handler = NextAuth({
+    session: {
+        strategy: 'jwt',
+    },
+    pages: {
+        signIn: '/login',
+    },
     providers: [CredentialsProvider({
         credentials: {
             email: {},
@@ -24,8 +30,8 @@ const handler = NextAuth({
                     email: user.email,
                 };
             }
-            return null;
             console.log(credentials);
+            return null;
         },
     })]
 })
