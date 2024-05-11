@@ -1,0 +1,110 @@
+.page {
+    width: 100vw;
+    height: 100vh;
+    background-color: seagreen;
+    background-image: url('../assets/images/background.png');
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+}
+.wrapper {
+    width: 420px;
+    background: transparent;
+    color: #fff;
+    margin: 0;
+    border-radius: 15px;
+    border: 2.5px solid rgba(255, 255, 255, 0.932);
+    background-color: rgba(0, 0, 0, 0, .5);
+    box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+    padding: 30px 40px;
+    box-sizing: border-box;
+    background-size: cover;
+    background-position: center;
+}
+.wrapper h1 {
+    font-size: 36px;
+    text-align: center;
+}
+
+.wrapper form .inputBox {
+    position: relative;
+    width: 100%;
+    height: 50px;
+    margin: 30px 0;
+}
+
+.wrapper form .inputBox input {
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    outline: none;
+    border: 2.5px solid rgba(255, 255, 255, 0.932);
+    border-radius: 40px;
+    font-size: 16px;
+    color: #fff;
+    padding: 20px 45px 20px 20px;
+}
+
+.inputbox input::placeholder {
+    color: #fff;
+}
+
+.wrapper form .inputBox .icon{
+    position: absolute;
+    right: 0px;
+    top: 18%;
+    transform: translate(-50%);
+    font-size: 16px;
+}
+
+.wrapper form .rememberForgot {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14.5px;
+    margin: -15px 0 15px;
+}
+
+.wrapper form .rememberForgot label input {
+    accent-color: #fff;
+    margin-right: 4px;
+}
+
+.wrapper form .rememberForgot a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.wrapper form .rememberForgot a:hover {
+    text-decoration: underline;
+}
+
+.wrapper form .loginButton {
+    width: 100%;
+    height: 45px;
+    background: #fff;
+    border: none;
+    outline: none;
+    border-radius: 40px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+    cursor: pointer;
+    font-size: 16px;
+    color: #333;
+    font-weight: 700;
+}
+
+.wrapper form .registerLink {
+    font-size: 14.5px;
+    text-align: center;
+    margin: 20px 0 15px;
+}
+
+.wrapper form .registerLink p a{
+   color: #fff;
+   text-decoration: none;
+   font-weight: 600;
+}
+
+.wrapper form .registerLink p a:hover{
+    text-decoration: underline;
+}
