@@ -1,10 +1,16 @@
 "use client"
 
-import { RegionData, getProvinceData, getRegionSVGs } from "@/utils/Dev-RegionDummyData"
+import { ProvinceData, RegionData, getProvinceData, getRegionSVGs } from "@/utils/Dev-RegionDummyData"
 import { useState, createRef, useEffect } from "react"
 
+import Image from "next/image"
 import Modal from 'react-modal'
 import parse from 'html-react-parser'
+
+import BackgroundImage from '../../assets/images/background.png'
+import Pin from '../../assets/images/pin.png'
+import Close from '../../assets/images/close.png'
+import ReactModal from "react-modal"
 
 interface PhilippinesMapProps {
   regionData: RegionData[]
@@ -15,45 +21,110 @@ interface PhilippinesMapProps {
 const regionSvgs = getRegionSVGs()
 const provinceData = getProvinceData()
 
+const languageColors = [
+  "#3498db", // Blue
+  "#e74c3c", // Red
+  "#2ecc71", // Green
+  "#9b59b6", // Purple
+  "#f39c12", // Orange
+  "#1abc9c", // Turquoise
+  "#e67e22", // Brown
+  "#6a1b9a", // Dark Purple
+  "#d35400", // Rust
+  "#27ae60", // Forest Green
+  "#8e44ad", // Violet
+  "#c0392b", // Dark Red
+  "#16a085", // Dark Cyan
+  "#f1c40f", // Yellow
+  "#34495e", // Midnight Blue
+];
+
+const languageData = [
+  {
+    "language": "Tagalog",
+    "resource": "facebook.com"
+  },
+  {
+    "language": "Tagalog",
+    "resource": "classroom.google.com"
+  },
+  {
+    "language": "Bicolano",
+    "resource": "classroom.google.com"
+  },
+]
+
+const phraseData = [
+  {
+    "language": "Tagalog",
+    "phrase": "Hindi",
+    "translation": "No"
+  },
+  {
+    "language": "Tagalog",
+    "phrase": "Salamat",
+    "translation": "Thank you"
+  }
+]
+
 export default function PhilippinesMap({ regionData, onMouseEnter, onMouseLeave }: PhilippinesMapProps) {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
-  const [modalData, setModalData] = useState<{ regionSVG: string, regionData: RegionData }>()
+  const [modalData, setModalData] = useState<{ regionSVG: string, regionData: RegionData } | null>(null)
+  const [selectedProvince, setSelectedProvince] = useState<{ svg?: SVGPathElement, provinceData: ProvinceData } | null>(null)
+  const [isLanguageResourcesOpen, setIsLanguageResourcesOpen] = useState<boolean>(false)
+  const [isPopularPhrasesOpen, setIsPopularPhrasesOpen] = useState<boolean>(false)
+  const [pinCoordinates, setPinCoordinates] = useState<{ x: number, y:number }>()
+
 
   const divRef = createRef<HTMLDivElement>()
+  const modalContainerRef = createRef<HTMLDivElement>()
 
   const modalStyles = {
     content: {
-      width: '80vw',
-      height: '80vh',
+      display: 'flex',
+      width: '85vw',
+      height: '90vh',
       top: '50%',
       left: '50%',
       right: 'auto',
       bottom: 'auto',
-      marginRight: '-50%',
       transform: 'translate(-50%, -50%)',
-      borderRadius: '50px'
+      borderRadius: '30px',
+    },
+    overlay: {
+      background: "rgba(50, 50, 50, 0.5)"
     }
   }
 
   useEffect(() => {
     if (divRef && divRef.current) {
       divRef.current.children[0].setAttribute("style", "margin: auto; height: 100%; width: 100%;")
-      divRef.current.childNodes[0].addEventListener("click", handleProvinceOnClick)
-      divRef.current.childNodes[0].addEventListener("mouseenter", handleProvinceOnMouseEnter)
-      divRef.current.childNodes[0].addEventListener("mouseleave", handleProvinceOnMouseLeave)
-    } 
-  })
+
+      const provinceSVG = divRef.current.childNodes[0]
+
+      provinceSVG.addEventListener("click", handleProvinceOnClick)
+
+      return () => provinceSVG.removeEventListener("click", handleProvinceOnClick)
+    }
+  }, [divRef])
 
   function handleProvinceOnClick(e: Event) {
-    console.log(e.target)
-  }
-
-  function handleProvinceOnMouseEnter(e: Event) {
-
-  }
-
-  function handleProvinceOnMouseLeave(e: Event) {
+    if (e.target instanceof SVGPathElement === false) return
+    if (selectedProvince && selectedProvince.svg) {
+      selectedProvince.svg.classList.remove("selected")
+    }
+    const province = e.target as SVGPathElement
+    province.classList.add("selected")
     
+    if (e instanceof MouseEvent && modalContainerRef.current !== null) {
+      setPinCoordinates({ x: e.clientX - modalContainerRef.current.getBoundingClientRect().x, y: e.clientY - modalContainerRef.current.getBoundingClientRect().y })
+    }
+
+    const selectedProvinceData = provinceData.find(p => p.province.toLocaleLowerCase() === province.id.replaceAll("-", " ").toLocaleLowerCase())
+
+    if (!selectedProvinceData) return
+
+    setSelectedProvince({ svg: province, provinceData: selectedProvinceData })
   }
 
   function handleOnClick(e: React.MouseEvent) {
@@ -61,40 +132,205 @@ export default function PhilippinesMap({ regionData, onMouseEnter, onMouseLeave 
     const clickedRegionSVGString = Object.entries(regionSvgs).find(([key, _]) => key.toLocaleLowerCase() === regionName)
     const clickedRegionDetails = regionData.find(region => region.region.toLocaleLowerCase() === regionName.toLocaleLowerCase())
 
-    if (clickedRegionDetails === undefined || clickedRegionSVGString === undefined) return
+    if (!clickedRegionDetails || !clickedRegionSVGString) return
+
     setModalData({ regionSVG: clickedRegionSVGString[1], regionData: clickedRegionDetails })
     setIsModalOpen(true)
   }
 
   function handleCloseModal() {
+    setSelectedProvince(null)
     setIsModalOpen(false)
   }
 
   return (
     <>
       <Modal isOpen={isModalOpen} onRequestClose={handleCloseModal} style={modalStyles}>
-        <>
-          <div id="header">
-            <button>MAXIMIZE</button>
-            <button>CLOSE</button>
-          </div>
-          <div id="body" className="flex w-full h-full">
-            <div id="map-container" className="flex flex-col bg-green-200 h-full w-1/2">
-              <span className="text-black">{modalData?.regionData.region}</span>
-              <div ref={divRef} className="relative bg-red-200 h-4/5 w-full">
-                {
-                  parse(modalData?.regionSVG ?? "")
-                }
+        <div id="modal-container" ref={modalContainerRef}> 
+          { 
+            selectedProvince && <div className="absolute z-10" style={{ top: `${pinCoordinates?.y}px`, left: `${pinCoordinates?.x}px` }}>
+              <Image 
+                src={Pin}
+                alt="Pinned location"
+                width={15}
+                height={15}
+              />
+            </div>
+          }
+          <div id="container" className="flex flex-col w-full h-full p-4">
+            <div id="header" className="relative flex w-full items-center justify-end">
+              <button onClick={handleCloseModal} className="bg-white invert rounded-full p-2 text-sm">
+                <Image 
+                  src={Close} 
+                  alt="Close modal"              
+                  width={10}
+                  height={10}
+                />
+              </button>
+            </div>
+            <div id="body" className="relative flex flex-1 overflow-auto w-full">
+              <div id="map-container" className="flex flex-col justify-center items-center h-full w-1/2">
+                <span className="text-black font-sf-semibold text-4xl">{modalData?.regionData.region}</span>
+                <span className="text-black font-sf-regular italic text-3xl">{selectedProvince?.provinceData.capital.replace("City", "")}</span>
+                <div ref={divRef} className="relative h-3/5 w-full my-16">
+                  {
+                    parse(modalData?.regionSVG ?? "")
+                  }
+                </div>
+              </div>
+              <div id="details-container" className="relative flex h-full w-1/2 p-8 items-center justify-center">
+                <div className="flex flex-col h-full w-full rounded-3xl bg-[#f3ffec] p-16 overflow-auto shadow-xl">
+                  <Image 
+                    src={BackgroundImage}
+                    alt="Province Image"
+                    style={{
+                      borderRadius: "30px",
+                      boxShadow: "0 25px 50px -12px rgb(0 0 0 / 0.25)"
+                    }}
+                  />
+                  <span id="short-description" className="text-black font-sf-medium text-xl my-4">{selectedProvince?.provinceData["short-info"] ?? modalData?.regionData["short-info"]}</span>
+                  <div id="primary-languages" className="flex justify-between items-center my-4">
+                    <span className="text-black font-sf-semibold text-3xl">Primary Languages</span>
+                    <div>
+                      {
+                        selectedProvince ?
+                        selectedProvince?.provinceData.languages.split(", ").map((language, index) => <span key={index} className="shadow-2xl text-white text-sm py-2 px-3 m-1 rounded-lg bg-emerald-950">{language}</span>) :
+                        modalData?.regionData["languages-spoken"].split(", ").map((language, index) => <span key={index} className="shadow-2xl text-white text-sm py-2 px-3 m-1 rounded-lg bg-emerald-950">{language}</span>)
+                      }
+                    </div>
+                  </div>
+                  <div id="population" className="flex justify-between my-2">
+                    <span className="text-black font-sf-semibold text-xl">Population</span>
+                    <span className="text-black font-sf-medium text-xl">{selectedProvince?.provinceData.population ?? modalData?.regionData.population}</span>
+                  </div>
+                  <div id="land-area" className="flex justify-between my-2">
+                    <span className="text-black font-sf-semibold text-xl">Land Area (m<sup>2</sup>)</span>
+                    <span className="text-black font-sf-medium text-xl">{selectedProvince?.provinceData["land-area"] ?? modalData?.regionData["land-area"]}</span>
+                  </div>
+                  <div id="major-dialects-or-popular-literatue" className="flex justify-between my-2">
+                    <span className="text-black font-sf-semibold text-xl">{selectedProvince ? "Popular Literature" : "Major Dialects"}</span>
+                    <span className="text-black font-sf-medium text-xl">{selectedProvince?.provinceData["popular-literature"] ?? modalData?.regionData["major-dialects"]}</span>
+                  </div>
+                  {
+                    selectedProvince?.provinceData["lit-address"] &&
+                    <div id="literature-address">
+                      <span>Full Address of Popular Literature</span>
+                      <span>{selectedProvince.provinceData["lit-address"]}</span>
+                    </div>
+                  }
+                  <div id="population-distribution-by-language" className="flex flex-col w-full items-center my-2">
+                    <span className="text-black font-sf-semibold text-xl mb-2">Population Distribution by Language</span>
+                    {
+                      selectedProvince ?
+                      selectedProvince.provinceData["population-distribution"].split(", ").map((distribution, index) => {
+                        const [language, percentage] = distribution.split(":")
+                        return (
+                          <div id="distribution-container" className="w-full bg-gray-400 rounded-md mb-2">
+                            <div id="distribution-percentage" style={{ background: languageColors[index], width: percentage }} className="flex items-center justify-between rounded-md flex-row p-2">
+                              {
+                                Number(percentage.replace("%", "")) >= 15 &&
+                                <div id="language" className="flex flex-row justify-center  h-full w-full">
+                                  <span className="text-black font-sf-regular text-xs">{`${language.substring(0, 10)}${language.length >= 10 ? "..." : ""}`}</span>
+                                </div>  
+                              }
+                              <span className="text-black font-sf-regular text-xs">{percentage}</span>
+                            </div>
+                          </div>
+                        ) 
+                      }) :
+                      modalData?.regionData["population-distribution"].split(", ").map((distribution, index) => {
+                        const [language, percentage] = distribution.split(":")
+                        return (
+                          <div id="distribution-container" className="w-full bg-gray-400 rounded-md mb-2">
+                            <div id="distribution-percentage" style={{ background: languageColors[index], width: percentage }} className="flex items-center justify-between rounded-md flex-row p-2">
+                              {
+                                Number(percentage.replace("%", "")) >= 15 &&
+                                <div id="language" className="flex justify-center  h-full w-full">
+                                  <span className="text-black font-sf-regular text-xs">{language}</span>
+                                </div>  
+                              }
+                              <span className="text-black font-sf-regular text-xs">{percentage}</span>
+                            </div>
+                          </div>
+                        ) 
+                      })
+                    }
+                  </div>
+                  {
+                    !selectedProvince && (
+                      <>
+                        <div id="language-resources" className="bg-gray-300 w-full rounded-lg p-6 my-2">
+                          <div id="header" className="flex items-center justify-between">
+                            <span className="text-black font-sf-semibold text-lg">Lanugage Resources</span>
+                            <button className="text-black text-xl" onClick={() => {setIsLanguageResourcesOpen(!isLanguageResourcesOpen)}}>{isLanguageResourcesOpen ? "-" : "+"}</button>
+                          </div>
+                          <div id="container">
+                            {
+                              isLanguageResourcesOpen && modalData?.regionData["languages-spoken"].split(", ").map((language, languageIndex) => {
+                                const langData = languageData.filter(data => data.language.toLocaleLowerCase() === language.toLocaleLowerCase())
+                                if (langData.length === 0) return (
+                                  <div key={languageIndex} className="mt-4">
+                                    <span className="text-black font-sf-semibold text-lg">{language}</span>
+                                  </div>
+                                )
+                                return (
+                                  <div className="flex flex-col mt-4">
+                                    <span className="text-black font-sf-semibold text-md">{langData[0].language}</span>
+                                    {
+                                      langData.map((individualLanguage, index) => (
+                                        <span key={index} className="text-black font-sf-regular text-sm">{individualLanguage.resource}</span>
+                                      ))
+                                    }
+                                  </div>
+                                )
+                              })
+                            }
+                          </div>
+                        </div>
+
+                        <div id="popular-phrases" className="bg-gray-300 w-full rounded-lg p-6 my-2">
+                          <div id="header" className="flex items-center justify-between">
+                            <span className="text-black font-sf-semibold text-lg">Popular Phrases</span>
+                            <button className="text-black text-xl" onClick={() => {setIsPopularPhrasesOpen(!isPopularPhrasesOpen)}}>{isPopularPhrasesOpen ? "-" : "+"}</button>
+                          </div>
+                          <div id="container">
+                            {
+                              isPopularPhrasesOpen && modalData?.regionData["languages-spoken"].split(", ").map((language, languageIndex) => {
+                                const phrases = phraseData.filter(data => data.language.toLocaleLowerCase() === language.toLocaleLowerCase())
+                                if (phrases.length === 0) return (
+                                  <div key={languageIndex} className="mt-4">
+                                    <span className="text-black font-sf-semibold text-lg">{language}</span>
+                                  </div>
+                                )
+                                return (
+                                  <div className="flex flex-col mt-4">
+                                    <span className="text-black font-sf-semibold text-md">{phrases[0].language}</span>
+                                    {
+                                      phrases.map((phrase, index) => {
+                                        return (
+                                          <span key={index} className="text-black font-sf-regular text-sm">{`${phrase.phrase} (${phrase.language}) - ${phrase.translation} (English)`}</span>
+                                        )
+                                      })
+                                    }
+                                  </div>
+                                )
+                              })
+                            }
+                          </div>
+                        </div>
+                      </>
+                    )
+                  }
+                </div>
               </div>
             </div>
-            <div id="details-container" className="h-full w-1/2 bg-red-200"></div>
+            {/* <div id="footer" className="flex items-center justify-end">
+              <button onClick={handleCloseModal} className="transition hover:bg-white hover:text-emerald-950 min-w-24 bg-emerald-950 border border-emerald-950 border-1 py-3 px-4 rounded-lg mx-2 text-xs font-sf-regular">CLOSE</button>
+              <button className="transition hover:bg-white hover:text-emerald-950 min-w-24 bg-emerald-950 border border-emerald-950 border-1 py-3 px-4 rounded-lg mx-2 text-xs font-sf-regular">BACK</button>
+              <button className="transition hover:bg-white hover:text-emerald-950 min-w-24 bg-emerald-950 border border-emerald-950 border-1 py-3 px-4 rounded-lg mx-2 text-xs font-sf-regular">NEXT</button>
+            </div> */}
           </div>
-          <div id="footer">
-            <button>CLOSE</button>
-            <button>BACK</button>
-            <button>NEXT</button>
-          </div>
-        </>
+        </div>
       </Modal>
           <svg
               width="inherit"
