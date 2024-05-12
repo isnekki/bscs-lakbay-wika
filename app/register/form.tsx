@@ -23,7 +23,6 @@ export default function Form() {
         if (password !== confirmPassword) {
             setIsPasswordSame(false);
         } else {
-            setIsPasswordSame(true);
             const formData = new FormData(e.currentTarget)
             const response = await fetch('/api/auth/register', {
             method: 'POST',

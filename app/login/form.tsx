@@ -1,11 +1,12 @@
 'use client'
 
-import { FormEvent } from "react";
+import { FormEvent, useState } from "react";
 import { signIn } from "next-auth/react"
 import { useRouter } from "next/navigation";
 import Image from 'next/image'
 
 export default function Form() {
+    const [isAccountValid, setIsAccountValid] = useState(true)
     const router = useRouter();
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
@@ -19,9 +20,12 @@ export default function Form() {
         console.log({ response });
         //handle login error
         if (!response?.error) {
-            router.push("/"); //route if successful
+            router.push("/"); 
             router.refresh(); //refresh cache
+        } else {
+            setIsAccountValid(false)
         }
+        
     }
     return (
         <div className="h-screen w-screen flex items-center justify-center bg-island-background bg-[#173f2a] bg-cover bg-blend-multiply">
@@ -35,6 +39,7 @@ export default function Form() {
                     <input name="password" className="w-full h-12 bg-transparent border-2.5 rounded-full border-white px-3 placeholder-white pr-10" type="password" placeholder="Password"/>
                     <Image src={'/lock.svg'} alt={'Icon image'} width={32} height={32} className="absolute translate-x-1/2 right-10 top-2"/>
                 </div>
+                {isAccountValid ? null : <p className="text-sm text-red-500 justify-center italic flex">Invalid email or password</p>}
                 <div className="flex justify-between mx-5 mt-2">
                     <label className="text-xs"><input className="mx-1" type="checkbox" />Remember me</label>
                     <a className="text-xs" href="#">Forgot password?</a>
