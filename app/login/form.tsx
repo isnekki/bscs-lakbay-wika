@@ -43,7 +43,7 @@ export default function Form() {
                     <button className="w-full h-12 bg-white outline-none border-none rounded-full text-black font-sf-semibold hover:bg-slate-100" type='submit'>Login</button>
                 </div>
                 <div className="flex justify-center">
-                    <p className="text-sm">Don't have an account? <a className="text-sm font-sf-semibold hover:underline" href="/register">Register</a></p>
+                    <p className="text-sm">Don&apos;t have an account? <a className="text-sm font-sf-semibold hover:underline" href="/register">Register</a></p>
                 </div>
             </form>
         </div>

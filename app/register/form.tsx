@@ -22,9 +22,10 @@ export default function Form() {
         
         if (password !== confirmPassword) {
             setIsPasswordSame(false);
-        }
-        const formData = new FormData(e.currentTarget)
-        const response = await fetch('/api/auth/register', {
+        } else {
+            setIsPasswordSame(true);
+            const formData = new FormData(e.currentTarget)
+            const response = await fetch('/api/auth/register', {
             method: 'POST',
             body: JSON.stringify({
                 email: formData.get('email'),
@@ -34,6 +35,8 @@ export default function Form() {
             }),
         });
         console.log({ response })
+        }
+        
     }
     return (
         <div className="h-screen w-screen flex items-center justify-center bg-island-background bg-[#173f2a] bg-cover bg-blend-multiply">
