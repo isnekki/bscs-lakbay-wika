@@ -33,6 +33,12 @@ const config: Config = {
         'sf-thin-italic': ['SF-Thin-Italic'],
         'sf-ultralight': ['SF-Ultralight'],
         'sf-ultralight-italic': ['SF-Ultralight-Italic']
+      },
+      borderWidth: {
+        '2.5': '2.5px'
+      },
+      height: {
+        'register':'500px'
       }
     },
   },
