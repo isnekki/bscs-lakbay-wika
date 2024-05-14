@@ -14,7 +14,7 @@ import { getDummyData } from "@/utils/Dev-RegionDummyData";
 import BSCSLogo from '../assets/images/logo-white.png'
 import { createRef, useState } from "react";
 
-Modal.setAppElement("main")
+Modal.setAppElement("#homepage")
 
 export default function Home() {
   const [tooltipCoordinates, setTooltipCoordinates] = useState<{ x: number, y:number }>({ x: 0, y: 0 })
@@ -37,7 +37,7 @@ export default function Home() {
   }
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between">
+    <main id="homepage" className="flex min-h-screen flex-col items-center justify-between">
       <nav className="absolute flex items-center w-full p-12">
         <div className="flex justify-between w-1/5 text-lg font-regular">
           <span>Introduction</span>
