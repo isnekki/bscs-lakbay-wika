@@ -40,8 +40,8 @@ import Logout from './logout';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: "PinaSpeak",
-  description: "PinaSpeak Homepage",
+  title: "Lakbay Wika",
+  description: "Lakbay Wika Homepage",
 };
 
 export default async function RootLayout({
