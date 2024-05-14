@@ -14,7 +14,7 @@ import { getDummyData } from "@/utils/Dev-RegionDummyData";
 import BSCSLogo from '../assets/images/logo-white.png'
 import { createRef, useState } from "react";
 
-Modal.setAppElement("#homepage")
+Modal.setAppElement("body")
 
 export default function Home() {
   const [tooltipCoordinates, setTooltipCoordinates] = useState<{ x: number, y:number }>({ x: 0, y: 0 })
