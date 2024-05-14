@@ -53,6 +53,7 @@ export default function Home() {
             />
         </div>
       </nav>
+
       <div id="container" className="flex flex-col items-center p-12 w-full h-screen w-full bg-island-background bg-[#173f2a] bg-cover bg-blend-multiply">
         <div className="h-full w-full flex flex-col p-12 justify-center">
           <h1 className="text-7xl font-sf-regular font-bold text-white">The Filipino Languages</h1>
