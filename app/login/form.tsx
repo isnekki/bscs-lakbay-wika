@@ -21,14 +21,14 @@ export default function Form() {
         //handle login error
         if (!response?.error) {
             router.push("/"); 
-            router.refresh(); //refresh cache
+            // router.refresh(); //refresh cache
         } else {
             setIsAccountValid(false)
         }
         
     }
     return (
-        <div className="h-screen w-screen flex items-center justify-center bg-island-background bg-[#173f2a] bg-cover bg-blend-multiply">
+        <div className="h-screen flex items-center justify-center bg-island-background bg-[#173f2a] bg-cover bg-blend-multiply">
             <form onSubmit={handleSubmit} className="flex flex-col gap-2 mx-auto w-96 mt-10 h-96 justify-center bg-transparent border-2.5 rounded-2xl border-white">
             <h1 className="flex items-center justify-center text-3xl font-sf-semibold" >Login</h1>
                 <div className="relative w-full h-12 mt-7 px-4">
